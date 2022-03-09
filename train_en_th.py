@@ -11,10 +11,11 @@ model_name = 'mt-align'
 metric_name = "sacrebleu"
 data_path = "df_LST_clean4.csv"
 data_name = 'LST'
+# data_rows = 10000  # Load Some Data
 data_rows = True  # Load All Data
 # Training Params
 batch_size = 32
-num_train_epochs = 5
+num_train_epochs = 10
 
 repo_model_name = f'{model_name}-finetuned-{data_name}-{source_lang}-to-{target_lang}'
 

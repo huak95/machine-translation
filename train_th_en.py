@@ -6,15 +6,15 @@ torch.cuda.empty_cache()
 # 1. Input
 source_lang = 'th'
 target_lang = 'en'
-model_checkpoint = "Helsinki-NLP/opus-mt-th-en"
+model_checkpoint = "Helsinki-NLP/opus-mt-en-mul" # <---Need to change Tomorrow
 model_name = 'mt-align'
 metric_name = "sacrebleu"
-data_path = "df_1340K_SCB+LST+QED+Tatoeba.csv"
+data_path = "df_all1.csv" # <---Need to change Tomorrow
 data_name = 'LST'
 data_rows = True  # Load All Data
 # Training Params
-batch_size = 34
-num_train_epochs = 10
+batch_size = 32
+num_train_epochs = 8
 
 repo_model_name = f'{model_name}-finetuned-{data_name}-{source_lang}-to-{target_lang}'
 

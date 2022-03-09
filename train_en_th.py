@@ -6,12 +6,11 @@ torch.cuda.empty_cache()
 # 1. Input
 source_lang = 'en'
 target_lang = 'th'
-model_checkpoint = "Helsinki-NLP/opus-mt-en-mul"
+model_checkpoint = "Helsinki-NLP/opus-mt-en-mul" # <---Need to change Tomorrow
 model_name = 'mt-align'
 metric_name = "sacrebleu"
-data_path = "df_LST_clean4.csv"
+data_path = "df_all1.csv" # <---Need to change Tomorrow
 data_name = 'LST'
-# data_rows = 10000  # Load Some Data
 data_rows = True  # Load All Data
 # Training Params
 batch_size = 32

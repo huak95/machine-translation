@@ -121,7 +121,7 @@ torch.cuda.empty_cache()
 
 # OG ARGS
 args = Seq2SeqTrainingArguments(
-    new_model_name,
+    repo_model_name,
     evaluation_strategy = "epoch",
     learning_rate = 2e-5,
     per_device_train_batch_size = batch_size,

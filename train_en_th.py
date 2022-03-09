@@ -6,17 +6,18 @@ torch.cuda.empty_cache()
 # 1. Input
 source_lang = 'en'
 target_lang = 'th'
-model_checkpoint = "Helsinki-NLP/opus-mt-en-mul" # <---Need to change Tomorrow
+# model_checkpoint = "Helsinki-NLP/opus-mt-en-mul" # <---Need to change Tomorrow
+model_checkpoint = "huak95/mt-align-finetuned-LST-en-to-th"
 model_name = 'mt-align'
 metric_name = "sacrebleu"
-data_path = "df_all1.csv" # <---Need to change Tomorrow
+data_path = "df_all2.csv" # <---Need to change Tomorrow
 data_name = 'LST'
 data_rows = True  # Load All Data
 # Training Params
 batch_size = 32
 num_train_epochs = 10
 
-repo_model_name = f'{model_name}-finetuned-{data_name}-{source_lang}-to-{target_lang}'
+repo_model_name = f'{model_name}-finetuned-{data_name}-{source_lang}-to-{target_lang}-pt2'
 
 print('model_checkpoint: ', model_checkpoint)
 print('repo_model_name: ', repo_model_name)
@@ -57,7 +58,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 # Set Source and Target Language
 if model_checkpoint in ["t5-small", "t5-base", "t5-larg", "t5-3b", "t5-11b"]:
     prefix = "translate Thai to English: "
-elif model_checkpoint in ["Helsinki-NLP/opus-mt-en-mul"]:
+elif model_checkpoint in ["Helsinki-NLP/opus-mt-en-mul", "huak95/mt-align-finetuned-LST-en-to-th"]:
     prefix = '>>tha<<'
 else:
     prefix = ""
@@ -96,8 +97,31 @@ print('tokenized_datasets: \n', tokenized_datasets)
 
 model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 torch.cuda.empty_cache()
+
+# # New Args
+# args = Seq2SeqTrainingArguments(
+#     repo_model_name,
+#     evaluation_strategy = "epoch",
+#     learning_rate = 2e-5,
+#     per_device_train_batch_size = batch_size,
+#     per_device_eval_batch_size  = batch_size//2,
+# #     gradient_checkpointing=True, # For Accelerate Training
+#     weight_decay =0.01,
+#     save_total_limit = 3,
+#     num_train_epochs=num_train_epochs,
+#     predict_with_generate=True,
+#     dataloader_num_workers=32, # Multi-tread CPU
+#     fp16=True,
+#     gradient_accumulation_steps=10,
+#     eval_accumulation_steps = 10, # Reduce Using GPU Ram When Evaulation
+#     optim="adafactor", # Faster than ADAM
+#     push_to_hub = True,
+#     report_to="wandb",
+# )
+
+# OG ARGS
 args = Seq2SeqTrainingArguments(
-    repo_model_name,
+    new_model_name,
     evaluation_strategy = "epoch",
     learning_rate = 2e-5,
     per_device_train_batch_size = batch_size,
@@ -105,15 +129,14 @@ args = Seq2SeqTrainingArguments(
 #     gradient_checkpointing=True, # For Accelerate Training
     weight_decay =0.01,
     save_total_limit = 3,
-    num_train_epochs=num_train_epochs,
+    num_train_epochs=1,
     predict_with_generate=True,
     dataloader_num_workers=32, # Multi-tread CPU
     fp16=True,
-    gradient_accumulation_steps=10,
     eval_accumulation_steps = 10, # Reduce Using GPU Ram When Evaulation
-    optim="adafactor", # Faster than ADAM
     push_to_hub = True,
     report_to="wandb",
+    hub_token = 'token value'
 )
 
 # 4.1 Create Data collator ----------------------

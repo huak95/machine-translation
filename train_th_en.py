@@ -6,7 +6,7 @@ torch.cuda.empty_cache()
 # 1. Input
 source_lang = 'th'
 target_lang = 'en'
-    model_checkpoint = "huak95/mt-align-finetuned-SUM3-th-to-en" # <---Need to change Tomorrow
+model_checkpoint = "huak95/mt-align-finetuned-SUM3-th-to-en" # <---Need to change Tomorrow
 model_name = 'mt-align'
 metric_name = "sacrebleu"
 data_path = "df_all2.csv" # <---Need to change Tomorrow
@@ -14,7 +14,7 @@ data_name = 'SUM3'
 data_rows = True  # Load All Data
 # Training Params
 batch_size = 32
-num_train_epochs = 8
+num_train_epochs = 30
 
 repo_model_name = f'{model_name}-finetuned-{data_name}-{source_lang}-to-{target_lang}-pt2'
 
@@ -134,7 +134,6 @@ args = Seq2SeqTrainingArguments(
     eval_accumulation_steps = 10, # Reduce Using GPU Ram When Evaulation
     push_to_hub = True,
     report_to="wandb",
-    hub_token = 'token value'
 )
 
 # 4.1 Create Data collator ----------------------

@@ -15,7 +15,7 @@ data_name = 'LST'
 data_rows = True  # Load All Data
 # Training Params
 batch_size = 32
-num_train_epochs = 10
+num_train_epochs = 30
 
 repo_model_name = f'{model_name}-finetuned-{data_name}-{source_lang}-to-{target_lang}-pt2'
 

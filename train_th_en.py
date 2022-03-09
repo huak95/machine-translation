@@ -13,7 +13,7 @@ data_path = "df_1340K_SCB+LST+QED+Tatoeba.csv"
 data_name = 'LST'
 data_rows = True  # Load All Data
 # Training Params
-batch_size = 42
+batch_size = 34
 num_train_epochs = 10
 
 repo_model_name = f'{model_name}-finetuned-{data_name}-{source_lang}-to-{target_lang}'

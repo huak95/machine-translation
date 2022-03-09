@@ -110,7 +110,9 @@ args = Seq2SeqTrainingArguments(
     predict_with_generate=True,
     dataloader_num_workers=32, # Multi-tread CPU
     fp16=True,
+    gradient_accumulation_steps=10,
     eval_accumulation_steps = 10, # Reduce Using GPU Ram When Evaulation
+    optim="adafactor", # Faster than ADAM
     push_to_hub = True,
     report_to="wandb",
 )

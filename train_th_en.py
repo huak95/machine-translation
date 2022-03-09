@@ -9,12 +9,12 @@ target_lang = 'en'
 model_checkpoint = "Helsinki-NLP/opus-mt-th-en"
 model_name = 'mt-align'
 metric_name = "sacrebleu"
-data_path = "df_LST_clean4.csv"
+data_path = "df_1340K_SCB+LST+QED+Tatoeba.csv"
 data_name = 'LST'
 data_rows = True  # Load All Data
 # Training Params
-batch_size = 32
-num_train_epochs = 5
+batch_size = 42
+num_train_epochs = 10
 
 repo_model_name = f'{model_name}-finetuned-{data_name}-{source_lang}-to-{target_lang}'
 
@@ -109,7 +109,9 @@ args = Seq2SeqTrainingArguments(
     predict_with_generate=True,
     dataloader_num_workers=32, # Multi-tread CPU
     fp16=True,
+    gradient_accumulation_steps=10,
     eval_accumulation_steps = 10, # Reduce Using GPU Ram When Evaulation
+    optim="adafactor", # Faster than ADAM
     push_to_hub = True,
     report_to="wandb",
 )

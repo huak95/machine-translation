@@ -8,15 +8,16 @@ source_lang = 'th'
 target_lang = 'en'
 model_checkpoint = 'Helsinki-NLP/opus-mt-th-en'
 # model_checkpoint = "huak95/mt-align-finetuned-SUM3-th-to-en" # <---Need to change Tomorrow
-model_name = 'mt-align'
+model_name = 'TNANA'
 metric_name = "sacrebleu"
-data_path = 'df_LST_clean4.csv'
+data_path = 'attacut_dataset_train.csv'
 # data_path = "df_all2.csv" # <---Need to change Tomorrow
-data_name = 'LST_classic'
-data_rows = True  # Load All Data
+data_name = 'attacut'
+# data_rows = True  # Load All Data
+data_rows = 2500000  # Load All Data
 # Training Params
-batch_size = 32
-num_train_epochs = 7
+batch_size = 26
+num_train_epochs = 3
 
 repo_model_name = f'{model_name}-{data_name}-{source_lang}-to-{target_lang}-pt2'
 
@@ -204,3 +205,10 @@ print("""
 /_/ /___/_/|_/___/___/_//_/   /_/ /_/|_/_/ |_/___/_/|_/___/_/|_/\___/  
 """)
 print('-'*50)
+
+model_for_predict = f"./{repo_model_name}"
+model = AutoModelForSeq2SeqLM.from_pretrained(model_for_predict)
+tokenizer = AutoTokenizer.from_pretrained(model_for_predict)
+
+model.push_to_hub(f"huak95/{repo_model_name}")
+tokenizer.push_to_hub(f"huak95/{repo_model_name}")
